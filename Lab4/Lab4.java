@@ -1,104 +1,157 @@
 import java.util.Scanner;
 
-public class BankAccount {
-    String accountNumber;
-    String accountHolderName;
-    double accountBalance;
-    String[] transactions;
-    int index;
+import javax.print.DocFlavor.STRING;
 
-    public BankAccount(String accountNumber, String accountHolderName, double accountBalance) {
-        this.accountNumber = accountNumber;
-        this.accountHolderName = accountHolderName;
-        this.accountBalance = accountBalance;
-        this.transactions = new String[100];
-        this.index = 0;
-    }
+public class Lab4 {
 
-    public void deposit(double amount) {
-        if (amount > 0) {
-            this.accountBalance += amount;
-            this.transactions[this.index++] = String.format("Deposited $%.2f", amount);
-        } else {
-            System.out.println("Invalid deposit amount.");
-        }
-    }
+    static String ACNO = "";
+    static String ACNAME = "";
+    static String BAL = "";
 
-    public void withdraw(double amount) {
-        if (amount > 0 && amount <= this.accountBalance) {
-            this.accountBalance -= amount;
-            this.transactions[this.index++] = String.format("Withdrawn $%.2f", amount);
-        } else {
-            System.out.println("Invalid withdrawal amount.");
-        }
-    }
-
-    public void printTransactions() {
-        System.out.println("Transactions:");
-        for (int i = 0; i < this.index; i++) {
-            System.out.println(this.transactions[i]);
-        }
-    }
-
-    public void printSummary() {
-        System.out.println("Account Summary:");
-        System.out.println("Account Number: " + this.accountNumber);
-        System.out.println("Account Holder Name: " + this.accountHolderName);
-        System.out.println("Account Balance: $" + this.accountBalance);
-    }
+    static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Enter account number: ");
-        String accountNumber = scanner.nextLine();
-        System.out.print("Enter account holder name: ");
-        String accountHolderName = scanner.nextLine();
-        System.out.print("Enter initial account balance: ");
-        double accountBalance = scanner.nextDouble();
-        scanner.nextLine(); // Consume the newline character
+        String[] transact = new String[1024]; // Stores 1. if deposit 2. if credit
+        Character choice;
+        Character yes = 'y';
+        Character no = 'n';
+        int i;
+        int j = 0;
 
-        BankAccount bankAccount = new BankAccount(accountNumber, accountHolderName, accountBalance);
+        for (i = 0;; i++) {
 
-        int choice;
-        do {
-            System.out.println();
-            System.out.println("Menu:");
-            System.out.println("1. Deposit money");
-            System.out.println("2. Withdraw money");
-            System.out.println("3. Print transactions");
-            System.out.println("4. Print account summary");
-            System.out.println("5. Exit");
-            System.out.print("Enter your choice: ");
-            choice = scanner.nextInt();
+            System.out.println("1. To initialize the customer");
+            System.out.println("2. To deposit money");
+            System.out.println("3. To withdraw money");
+            System.out.println("4. To print the transactions");
+            System.out.println("5. To print account summary");
+            int k = Integer.parseInt(sc.next());
 
-            switch (choice) {
+            switch (k) {
                 case 1:
-                    System.out.print("Enter deposit amount: ");
-                    double depositAmount = scanner.nextDouble();
-                    scanner.nextLine(); // Consume the newline character
-                    bankAccount.deposit(depositAmount);
+                    String[] output = initialise();
                     break;
-                case 2:
-                    System.out.print("Enter withdrawal amount: ");
-                    double withdrawalAmount = scanner.nextDouble();
-                    scanner.nextLine(); // Consume the newline character
-                    bankAccount.withdraw(withdrawalAmount);
-                    break;
-                case 3:
-                    bankAccount.printTransactions();
-                    break;
-                case 4:
-                    bankAccount.printSummary();
-                    break;
-                case 5:
-                    break;
-                default:
-                    System.out.println("Invalid choice.");
-                    break;
-            }
-        } while (choice != 5);
 
-        scanner.close();
+                case 2:
+                    double[] baldep = deposit();
+                    BAL = Double.toString(baldep[0]);
+                    System.out.println("New Balance: " + BAL);
+
+                    transact[j] = Double.toString(baldep[1]);
+                    j++;
+
+                    // for (;;i++){
+                    // transact[i]=Double.toString(baldep[1]) ;
+                    // }
+
+                    break;
+
+                case 3:
+                    double[] balwit = withdraw();
+                    BAL = Double.toString(balwit[0]);
+                    System.out.println("New Balance: " + BAL);
+                    String withdraw = "";
+                    withdraw = "-" + Double.toString(balwit[1]);
+                    transact[j] = withdraw;
+                    j++;
+                    break;
+
+                case 4:
+                    transaction(transact, j);
+
+                    // for (int l = 0; l < j; l++) {
+
+                    // System.out.println(transact[l]);
+
+                    // }
+
+                    break;
+
+                case 5:
+                    summary();
+
+                    break;
+
+                default:
+                    System.out.println("Invalid Choice. Please Enter the coorect option");
+
+            }
+            System.out.println("Press 'Y' to continue, 'N' to Exit: ");
+            choice = sc.next().charAt(0);
+
+            if (choice.equals(yes)) {
+                continue;
+            } else if (choice.equals(no)) {
+                break;
+            }
+        }
     }
+
+    public static String[] initialise() {
+
+        System.out.println("Enter Account Name: ");
+        ACNAME = sc.next();
+        System.out.println("Enter Account Number: ");
+        ACNO = sc.next();
+        System.out.println("Enter Account Balance: ");
+        BAL = sc.next();
+
+        String[] init = { ACNAME, ACNO, BAL };
+
+        return init;
+    }
+
+    public static double[] deposit() {
+
+        // changing BAL from String to Numeric for easier mathematical Operation
+
+        double balance = Double.parseDouble(BAL);
+
+        System.out.println("Enter the amount you want to deposit: ");
+        double dep = Double.parseDouble(sc.next());
+
+        balance = balance + dep;
+
+        double[] summ = { balance, dep };
+
+        return summ;
+
+    }
+
+    public static double[] withdraw() {
+
+        double balance = Double.parseDouble(BAL);
+        System.out.println("Enter the amount you want to withdraw");
+        double wit = Double.parseDouble(sc.next());
+
+        balance = balance - wit;
+        double[] summ = { balance, wit };
+
+        return summ;
+
+    }
+
+    public static void transaction(String b[], int p) {
+
+        for (int e = 0; e < p; e++) {
+            double element = Double.parseDouble(b[e]);
+            if (element < 0) {
+                System.out.println("Transaction: " + (e + 1));
+                System.out.println("Debit: " + element);
+                // System.out.println("New Balance: " + Double.parseDouble(BAL));
+            } else if (element > 0) {
+                System.out.println("Transaction: " + (e + 1));
+                System.out.println("Credit: " + element);
+            }
+        }
+
+    }
+
+    public static void summary() {
+        System.out.println("Account Name: " + ACNAME);
+        System.out.println("Account Number: " + ACNO);
+        System.out.println("Account Balance: " + BAL);
+    }
+
 }
