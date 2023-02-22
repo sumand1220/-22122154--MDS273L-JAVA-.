@@ -12,28 +12,28 @@ public class Lab3 {
             int choice = sc.nextInt();
             switch (choice) {
                 case 1:
-                    System.out.printf("Mean: %.2f\n", computeMean(arr));
+                    System.out.printf("Mean: %.2f\n", Calculate Mean(arr));
                     break;
                 case 2:
-                    System.out.printf("Median: %.2f\n", computeMedian(arr));
+                    System.out.printf("Median: %.2f\n", Calculate Median(arr));
                     break;
                 case 3:
-                    System.out.printf("Mode: %d\n", computeMode(arr));
+                    System.out.printf("Mode: %d\n", Calculate Mode(arr));
                     break;
                 case 4:
                     System.exit(0);
                 default:
-                    System.out.println("Wrong chioce choose between 1 till 4.");
+                    System.out.println("Invalid choice, please try again.");
             }
         }
     }
     
     public static int[] getArray(Scanner sc) {
-        System.out.print("Enter the size of an array: ");
+        System.out.print("Enter array size: ");
         int size = sc.nextInt();
         int[] arr = new int[size];
         for (int i = 0; i < size; i++) {
-            System.out.printf("Enter the array elements %d: ", i + 1);
+            System.out.printf("Enter elements %d: ", i + 1);
             arr[i] = sc.nextInt();
         }
         return arr;
@@ -43,7 +43,7 @@ public class Lab3 {
         System.out.println("1. Calculate Mean");
         System.out.println("2. Calculate Median");
         System.out.println("3. Calculate Mode");
-        System.out.println("4. Exit :)");
+        System.out.println("4. Exit");
         System.out.print("Enter your choice: ");
     }
     
