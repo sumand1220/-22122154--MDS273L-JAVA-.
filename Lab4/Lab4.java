@@ -1,7 +1,5 @@
 import java.util.Scanner;
 
-import javax.print.DocFlavor.STRING;
-
 public class Lab4 {
 
     static String ACNO = "";
@@ -18,6 +16,7 @@ public class Lab4 {
         Character no = 'n';
         int i;
         int j = 0;
+        double startbal=0.0;
 
         for (i = 0;; i++) {
 
@@ -31,6 +30,7 @@ public class Lab4 {
             switch (k) {
                 case 1:
                     String[] output = initialise();
+                    startbal=Double.parseDouble(BAL);
                     break;
 
                 case 2:
@@ -58,7 +58,7 @@ public class Lab4 {
                     break;
 
                 case 4:
-                    transaction(transact, j);
+                    transaction(transact, j, startbal);
 
                     // for (int l = 0; l < j; l++) {
 
@@ -132,17 +132,23 @@ public class Lab4 {
 
     }
 
-    public static void transaction(String b[], int p) {
+    public static void transaction(String b[], int p, double z) {
 
         for (int e = 0; e < p; e++) {
             double element = Double.parseDouble(b[e]);
             if (element < 0) {
+                element=-element;
                 System.out.println("Transaction: " + (e + 1));
                 System.out.println("Debit: " + element);
+                z=z-element;
+                System.out.println("New Balance: "+z);
                 // System.out.println("New Balance: " + Double.parseDouble(BAL));
             } else if (element > 0) {
                 System.out.println("Transaction: " + (e + 1));
                 System.out.println("Credit: " + element);
+                z=z+element;
+                System.out.println("New Balance: "+z);
+
             }
         }
 
