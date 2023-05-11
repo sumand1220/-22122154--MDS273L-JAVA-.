@@ -108,7 +108,7 @@ public class Lab7 {
             String[][] arr = new String[1024][6];
             int n=0;
             try{
-                File file=new File("C:/Users/niran/Downloads/Iris.csv");
+                File file=new File("C:/Users/suman/OneDrive/Desktop/Christ/JAVA/Iris.csv");
                 Scanner read=new Scanner(file);
                 while(read.hasNextLine()){
                   String x=read.nextLine();
